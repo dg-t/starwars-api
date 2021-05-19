@@ -6,6 +6,7 @@ import App from './App.vue'
 import AppController from './components/MainController/AppController.vue'
 import AppHeader from './components/Header/AppHeader.vue';
 import PeopleList from './components/People/PeopleList.vue';
+import PeopleDetails from './components/People/PeopleDetails.vue';
 import StarshipsList from './components/Starships/StarshipsList.vue';
 import PlanetsList from './components/Planets/PlanetsList.vue';
 
@@ -20,6 +21,7 @@ const router = createRouter({
     routes: [
         { path: '/', component: AppController },
         { path: '/people', component: PeopleList },
+        { path: '/people/:peopleId', component: PeopleDetails },
         { path: '/starships', component: StarshipsList },
         { path: '/planets', component: PlanetsList }
     ]

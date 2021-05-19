@@ -3,8 +3,7 @@
         <h1>People</h1>
         <div v-for="(p, index) in people"
             :key="index">
-            <p>{{p.name}}</p>
-            <p>{{p.height}}</p>
+            <router-link :to="'/people/'+index" class="btn btn-primary">{{p.name}}</router-link>
         </div>
     </section>
 </template>
@@ -14,12 +13,13 @@ export default {
     name: 'PeopleList',
     data() {
         return {
-            people: []
+            people: [],
+            name: ''
         }
     },
     methods: {
         async getPeople() {
-            
+
             const req = await fetch('https://swapi.dev/api/people'); 
             const res = await req.json();
 
