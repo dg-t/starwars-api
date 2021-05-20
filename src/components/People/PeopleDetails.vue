@@ -49,7 +49,7 @@ export default {
         }
     },
     methods: {
-        async getDetails() {
+        async getPeopleDetails() {
             try {
 
                 // GET peopleId FROM ROUTE PARAMS
@@ -122,7 +122,7 @@ export default {
         }
     },
     created() {
-        this.getDetails();
+        this.getPeopleDetails();
     }
 
 

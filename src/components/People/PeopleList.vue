@@ -17,12 +17,11 @@ export default {
     data() {
         return {
             people: [],
-            name: ''
         }
     },
     methods: {
+         // GET ALL PEOPLE FROM SWAPI - ASYNC/AWAIT
         async getPeople() {
-            // TRY GET ALL PEOPLE FROM SWAPI
             try {
                 const req = await fetch('https://swapi.dev/api/people'); 
                 const res = await req.json();
@@ -33,20 +32,10 @@ export default {
                     }
                 }
             } catch (error) {
-                alert('Something went wrong...');
+                // alert('Something went wrong...');
                 console.log(error)
             }
-        },
-        /** THEN */
-        // getPeople() {
-        //     fetch('https://swapi.dev/api/people').then((res) => {
-        //         if (res.ok) {
-        //             return res.json();
-        //         }
-        //     }).then((data) => {
-        //         console.log(data)
-        //     })
-        // },
+        }
     },
     created() {
         this.getPeople();

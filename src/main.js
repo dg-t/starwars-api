@@ -9,6 +9,7 @@ import PeopleList from './components/People/PeopleList.vue';
 import PeopleDetails from './components/People/PeopleDetails.vue';
 import StarshipsList from './components/Starships/StarshipsList.vue';
 import PlanetsList from './components/Planets/PlanetsList.vue';
+import PlanetDetails from './components/Planets/PlanetDetails.vue';
 
 
 const app = createApp(App);
@@ -23,7 +24,8 @@ const router = createRouter({
         { path: '/people', component: PeopleList },
         { path: '/people/:peopleId', component: PeopleDetails },
         { path: '/starships', component: StarshipsList },
-        { path: '/planets', component: PlanetsList }
+        { path: '/planets', component: PlanetsList },
+        { path: '/planets/:planetId', component: PlanetDetails },
     ]
 })
 
