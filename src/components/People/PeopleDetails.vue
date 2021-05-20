@@ -49,6 +49,7 @@ export default {
         }
     },
     methods: {
+        // GET PEOPLE DETAIL FROM SWAPI - ASYNC/AWAIT
         async getPeopleDetails() {
             try {
 

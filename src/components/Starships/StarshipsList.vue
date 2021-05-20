@@ -1,19 +1,44 @@
 <template>
     <section class="container-fluid">
         <h1>Starships</h1>
+        <div v-for="(s, index) in starships"
+            :key="index">
+            <router-link :to="'/starships/'+s.url.split('/').slice(1).slice(-2).join('/')" class="btn btn-primary">{{s.name}}</router-link>
+        </div>
+        <div>
+            <router-link to="/" class="btn btn-primary">Go back</router-link>
+        </div>
     </section>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     name: 'StarshipsList',
     data() {
         return {
-            
+            starships: []
         }
     },
-
-
+    methods: {
+        // GET ALL STARSHIPS FROM SWAPI - AXIOS
+        async getStarships() {
+            try {
+                const res = await axios('https://swapi.dev/api/starships'); 
+                const starships = res.data.results;
+                if (starships) {
+                    for (let i = 0; i < starships.length; i++) {
+                        this.starships.push(starships[i])
+                    }
+                } 
+            } catch (error) { 
+                console.log(error) 
+            }
+        }
+    },
+    created() {
+        this.getStarships();
+    }
 }
 </script>
 

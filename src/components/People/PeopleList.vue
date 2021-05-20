@@ -20,7 +20,7 @@ export default {
         }
     },
     methods: {
-         // GET ALL PEOPLE FROM SWAPI - ASYNC/AWAIT
+        // GET ALL PEOPLE FROM SWAPI - ASYNC/AWAIT
         async getPeople() {
             try {
                 const req = await fetch('https://swapi.dev/api/people'); 
