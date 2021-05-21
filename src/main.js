@@ -11,12 +11,14 @@ import StarshipsList from './components/Starships/StarshipsList.vue';
 import StarshipDetails from './components/Starships/StarshipDetails.vue';
 import PlanetsList from './components/Planets/PlanetsList.vue';
 import PlanetDetails from './components/Planets/PlanetDetails.vue';
+import BaseList from './components/UI/BaseList.vue';
 
 
 const app = createApp(App);
 
 app.component('app-controller', AppController);
 app.component('app-header', AppHeader);
+app.component('base-list', BaseList);
 
 const router = createRouter({
     history: createWebHistory(),

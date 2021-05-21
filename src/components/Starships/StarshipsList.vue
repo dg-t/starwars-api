@@ -1,9 +1,12 @@
 <template>
     <section class="container-fluid">
         <h1>Starships</h1>
-        <div v-for="(s, index) in starships"
-            :key="index">
-            <router-link :to="'/starships/'+s.url.split('/').slice(1).slice(-2).join('/')" class="btn btn-primary">{{s.name}}</router-link>
+        <p v-if="isLoading">Loading...</p>
+        <div v-else>
+            <div v-for="(s, index) in starships"
+                :key="index">
+                <router-link :to="'/starships/'+s.url.split('/').slice(1).slice(-2).join('/')" class="btn btn-primary">{{s.name}}</router-link>
+            </div>
         </div>
         <div>
             <router-link to="/" class="btn btn-primary">Go back</router-link>
@@ -17,13 +20,15 @@ export default {
     name: 'StarshipsList',
     data() {
         return {
-            starships: []
+            starships: [],
+            isLoading: false
         }
     },
     methods: {
         // GET ALL STARSHIPS FROM SWAPI - AXIOS
         async getStarships() {
             try {
+                this.isLoading = true;
                 const res = await axios('https://swapi.dev/api/starships'); 
                 const resStarships = res.data.results;
                 const starships = [];
@@ -32,6 +37,7 @@ export default {
                         starships.push(resStarships[i])
                     }
                     this.starships = starships;
+                    this.isLoading = false;
                 } 
             } catch (error) { 
                 console.log(error) 

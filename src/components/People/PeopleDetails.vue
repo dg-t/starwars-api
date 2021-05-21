@@ -1,27 +1,30 @@
 <template>
     <section class="container-fluid">
-        <div>
-            <h1>People detail</h1>
-            <p>Name: {{ name }}</p>
-            <p>Height: {{ height }}</p>
-            <p>Mass: {{ mass }}</p>
-            <p>Hair color: {{ hairColor }}</p>
-            <p>Eye color: {{ eyeColor }}</p>
-            <p>Birth year: {{ birthYear }}</p>
-            <p>Gender: {{ gender }}</p>
-            <p>Planet: {{ planet }}</p>
-        </div>
-        <div>
-            <p v-if="films.length > 0">Films: <span v-for="(film, index) in films" :key="index">{{ film }}. </span></p>
-        </div>
-        <div>
-            <p v-if="species.length > 0">Species: <span v-for="(specie, index) in species" :key="index">{{ specie }}. </span></p>
-        </div>
-        <div>
-            <p v-if="vehicles.length > 0">Vehicles: <span v-for="(vehicle, index) in vehicles" :key="index">{{ vehicle }}. </span></p>
-        </div>
-        <div>
-            <p v-if="starships.length > 0">Starships: <span v-for="(starship, index) in starships" :key="index">{{ starship }}. </span></p>
+        <p v-if="isLoading">Loading...</p>
+        <div v-else>
+            <div>
+                <h1>People detail</h1>
+                <p>Name: {{ name }}</p>
+                <p>Height: {{ height }}</p>
+                <p>Mass: {{ mass }}</p>
+                <p>Hair color: {{ hairColor }}</p>
+                <p>Eye color: {{ eyeColor }}</p>
+                <p>Birth year: {{ birthYear }}</p>
+                <p>Gender: {{ gender }}</p>
+                <p>Planet: {{ planet }}</p>
+            </div>
+            <div>
+                <p v-if="films.length > 0">Films: <span v-for="(film, index) in films" :key="index">{{ film }}. </span></p>
+            </div>
+            <div>
+                <p v-if="species.length > 0">Species: <span v-for="(specie, index) in species" :key="index">{{ specie }}. </span></p>
+            </div>
+            <div>
+                <p v-if="vehicles.length > 0">Vehicles: <span v-for="(vehicle, index) in vehicles" :key="index">{{ vehicle }}. </span></p>
+            </div>
+            <div>
+                <p v-if="starships.length > 0">Starships: <span v-for="(starship, index) in starships" :key="index">{{ starship }}. </span></p>
+            </div>
         </div>
         <div>
             <router-link to="/people/" class="btn btn-primary">Go back</router-link>
@@ -45,14 +48,15 @@ export default {
             films: [],
             species: [],
             vehicles: [],
-            starships: []
+            starships: [],
+            isLoading: false
         }
     },
     methods: {
         // GET PEOPLE DETAIL FROM SWAPI - ASYNC/AWAIT
         async getPeopleDetails() {
             try {
-
+                this.isLoading = true;
                 // GET peopleId FROM ROUTE PARAMS
                 const peopleId = this.$route.params.peopleId;
 
@@ -126,6 +130,8 @@ export default {
                     if ( species.length > 0) this.species.push(species.join('. '));
                     if ( vehicles.length > 0) this.vehicles.push(vehicles.join('. '));
                     if ( starships.length > 0) this.starships.push(starships.join('. '));
+
+                    this.isLoading = false;
                 }
             } catch (error) {
                 alert('Something went wrong...');

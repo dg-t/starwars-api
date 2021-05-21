@@ -1,22 +1,25 @@
 <template>
     <section class="container-fluid">
-        <div>
-            <h1>Planet detail</h1>
-            <p>Name: {{ name }}</p>
-            <p>Rotation period: {{ rotationPeriod }}</p>
-            <p>Orbital period: {{ orbitalPeriod }}</p>
-            <p>Diameter: {{ diameter }}</p>
-            <p>Climate: {{ climate }}</p>
-            <p>Gravity: {{ gravity }}</p>
-            <p>Terrain: {{ terrain }}</p>
-            <p>Surface water: {{ surfaceWater }}</p>
-            <p>population: {{ population }}</p>
-        </div>
-        <div>
-            <p v-if="residents.length > 0">Residents: <span v-for="(resident, index) in residents" :key="index">{{ resident }}. </span></p>
-        </div>
-        <div>
-            <p v-if="films.length > 0">Films: <span v-for="(film, index) in films" :key="index">{{ film }}. </span></p>
+        <p v-if="isLoading">Loading...</p>
+        <div v-else>
+            <div>
+                <h1>Planet detail</h1>
+                <p>Name: {{ name }}</p>
+                <p>Rotation period: {{ rotationPeriod }}</p>
+                <p>Orbital period: {{ orbitalPeriod }}</p>
+                <p>Diameter: {{ diameter }}</p>
+                <p>Climate: {{ climate }}</p>
+                <p>Gravity: {{ gravity }}</p>
+                <p>Terrain: {{ terrain }}</p>
+                <p>Surface water: {{ surfaceWater }}</p>
+                <p>population: {{ population }}</p>
+            </div>
+            <div>
+                <p v-if="residents.length > 0">Residents: <span v-for="(resident, index) in residents" :key="index">{{ resident }}. </span></p>
+            </div>
+            <div>
+                <p v-if="films.length > 0">Films: <span v-for="(film, index) in films" :key="index">{{ film }}. </span></p>
+            </div>
         </div>
         <div>
             <router-link to="/planets/" class="btn btn-primary">Go back</router-link>
@@ -39,12 +42,14 @@ export default {
             surfaceWater: '',
             population: '',
             residents: [],
-            films: []
+            films: [],
+            isLoading: false
         }
     },
     methods: {
         // GET PLANET DETAILS FROM SWAPI - THEN/CATCH
         getPlanetDetails() {
+            this.isLoading = true;
             // GET planetId FROM ROUTE PARAMS
             const planetId = this.$route.params.planetId;
 
@@ -112,6 +117,7 @@ export default {
                                 }
                                 this.films = films;
                             }
+                            this.isLoading = false;
                         });
                     }
                 })

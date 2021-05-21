@@ -1,26 +1,29 @@
 <template>
     <section class="container-fluid">
-        <div>
-            <h1>Starships details</h1>
-            <p>Name: {{ name }}</p>
-            <p>Model: {{ model }}</p>
-            <p>Manufacturer: {{ manufacturer }}</p>
-            <p>Cost In credits: {{ costInCredits }}</p>
-            <p>Length: {{ length }}</p>
-            <p>Max atmosphering speed: {{ maxAtmospheringSpeed }}</p>
-            <p>Crew: {{ crew }}</p>
-            <p>Passengers: {{ passengers }}</p>
-            <p>Cargo capacity: {{ cargoCapacity }}</p>
-            <p>Consumables: {{ consumables }}</p>
-            <p>Hyperdrive rating: {{ hyperdriveRating }}</p>
-            <p>MGLT: {{ MGLT }}</p>
-            <p>Starships class: {{ starshipsClass }}</p>
-        </div>
-        <div>
-            <p v-if="films.length > 0">Films: <span v-for="(film, index) in films" :key="index">{{ film }}. </span></p>
-        </div>
-        <div>
-            <p v-if="pilots.length > 0">Pilots: <span v-for="(pilot, index) in pilots" :key="index">{{ pilot }}. </span></p>
+        <p v-if="isLoading">Loading...</p>
+        <div v-else>
+            <div>
+                <h1>Starships details</h1>
+                <p>Name: {{ name }}</p>
+                <p>Model: {{ model }}</p>
+                <p>Manufacturer: {{ manufacturer }}</p>
+                <p>Cost In credits: {{ costInCredits }}</p>
+                <p>Length: {{ length }}</p>
+                <p>Max atmosphering speed: {{ maxAtmospheringSpeed }}</p>
+                <p>Crew: {{ crew }}</p>
+                <p>Passengers: {{ passengers }}</p>
+                <p>Cargo capacity: {{ cargoCapacity }}</p>
+                <p>Consumables: {{ consumables }}</p>
+                <p>Hyperdrive rating: {{ hyperdriveRating }}</p>
+                <p>MGLT: {{ MGLT }}</p>
+                <p>Starships class: {{ starshipsClass }}</p>
+            </div>
+            <div>
+                <p v-if="films.length > 0">Films: <span v-for="(film, index) in films" :key="index">{{ film }}. </span></p>
+            </div>
+            <div>
+                <p v-if="pilots.length > 0">Pilots: <span v-for="(pilot, index) in pilots" :key="index">{{ pilot }}. </span></p>
+            </div>
         </div>
         <div>
             <router-link to="/starships/" class="btn btn-primary">Go back</router-link>
@@ -48,13 +51,15 @@ export default {
             MGLT: '',
             starshipsClass: '',
             films: [],
-            pilots: []
+            pilots: [],
+            isLoading: false
         }
     },
     methods: {
         // GET STARSHIP DETAIL FROM SWAPI - AXIOS ASYNC/AWAIT
         async getStarshipsDetails() {
             try {
+                this.isLoading = true;
                 // GET starshipId FROM ROUTE PARAMS
                 const starshipId = this.$route.params.starshipId;
 
@@ -102,6 +107,8 @@ export default {
                     }
                     if (starshipDetails.pilots.length > 0) this.pilots = pilots;
                     if (starshipDetails.films.length > 0) this.films = films;
+
+                    this.isLoading = false;
                 }
             } catch (error) {
                 // alert('Something went wrong...');
