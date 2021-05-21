@@ -58,10 +58,60 @@ export default {
 
                 if (peopleId) {
                 
-                    // GENERAL INFO
+                    // GET PERSON GENERAL INFO
                     const req = await fetch('https://swapi.dev/api/people/'+peopleId); 
                     const res = await req.json();
-                    
+
+                    // HOMEWORLD
+                    let planet;
+                    if (res.homeworld) {
+                        const reqHomeworld = await fetch(res.homeworld); 
+                        const resHomeworld = await reqHomeworld.json();
+                        planet = resHomeworld.name;
+                    }
+
+                    // FILMS
+                    const films = [];
+                    if (res.films.length > 0) {
+                        for (let i = 0; i < res.films.length; i++) {
+                            let reqFilms = await fetch(res.films[i]);
+                            let resFilms= await reqFilms.json();
+                            films.push(resFilms.title);
+                        }
+                    }
+
+                    // SPECIES
+                    const species = [];
+                    if (res.species.length > 0) {
+                        for (let i = 0; i < res.species.length; i++) {
+                            let reqSpecies = await fetch(res.species[i]);
+                            let resSpecies= await reqSpecies.json();
+                            species.push(resSpecies.name);
+                        }
+                    }
+
+                    // VEHICLES
+                    const vehicles = [];
+                    if (res.vehicles.length > 0) {
+                        for (let i = 0; i < res.vehicles.length; i++) {
+                            let reqVehicles = await fetch(res.vehicles[i]);
+                            let resVehicles= await reqVehicles.json();
+                            vehicles.push(resVehicles.name);
+                        }
+                    }
+
+                    // STARSHIPS
+                    const starships = [];
+                    if (res.starships.length > 0) {
+                        for (let i = 0; i < res.starships.length; i++) {
+                            let reqStarships = await fetch(res.starships[i]);
+                            let resStarships= await reqStarships.json();
+                            starships.push(resStarships.name);
+                        }
+                    }
+
+                    // GET ALL PROMISES AND UPDATE FRONT
+                    await Promise.all([res, planet, films, species, vehicles, starships])
                     if (res) {
                         this.name = res.name;
                         this.height = res.height;
@@ -71,50 +121,11 @@ export default {
                         this.birthYear = res.birth_year;
                         this.gender = res.gender;
                     }
-
-                    // HOMEWORLD
-                    if (res.homeworld) {
-                        const reqHomeworld = await fetch(res.homeworld); 
-                        const resHomeworld = await reqHomeworld.json();
-
-                        this.planet = resHomeworld.name;
-                    }
-
-                    // FILMS
-                    if (res.films.length > 0) {
-                        for (let i = 0; i < res.films.length; i++) {
-                            let reqFilms = await fetch(res.films[i]);
-                            let resFilms= await reqFilms.json();
-                            this.films.push(resFilms.title);
-                        }
-                    }
-
-                    // SPECIES
-                    if (res.species.length > 0) {
-                        for (let i = 0; i < res.species.length; i++) {
-                            let reqSpecies = await fetch(res.species[i]);
-                            let resSpecies= await reqSpecies.json();
-                            this.species.push(resSpecies.name);
-                        }
-                    }
-
-                    // VEHICLES
-                    if (res.vehicles.length > 0) {
-                        for (let i = 0; i < res.vehicles.length; i++) {
-                            let reqVehicles = await fetch(res.vehicles[i]);
-                            let resVehicles= await reqVehicles.json();
-                            this.vehicles.push(resVehicles.name);
-                        }
-                    }
-
-                    // STARSHIPS
-                    if (res.starships.length > 0) {
-                        for (let i = 0; i < res.starships.length; i++) {
-                            let reqStarships = await fetch(res.starships[i]);
-                            let resStarships= await reqStarships.json();
-                            this.starships.push(resStarships.name);
-                        }
-                    }
+                    if (planet) this.planet = planet;
+                    if ( films.length > 0) this.films.push(films.join('. '));
+                    if ( species.length > 0) this.species.push(species.join('. '));
+                    if ( vehicles.length > 0) this.vehicles.push(vehicles.join('. '));
+                    if ( starships.length > 0) this.starships.push(starships.join('. '));
                 }
             } catch (error) {
                 alert('Something went wrong...');
@@ -125,8 +136,6 @@ export default {
     created() {
         this.getPeopleDetails();
     }
-
-
 }
 </script>
 

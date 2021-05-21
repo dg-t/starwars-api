@@ -49,7 +49,7 @@ export default {
             const planetId = this.$route.params.planetId;
 
             if (planetId) {
-                // GENERAL INFO
+                // GET PLANET GENERAL INFO
                 fetch(`https://swapi.dev/api/planets/${planetId}`)
                 .then(res => {
                     if (res.ok) {
@@ -58,45 +58,61 @@ export default {
                 })
                 .then(data => {
                     if (data) {
-                        this.name = data.name;
-                        this.rotationPeriod = data.rotation_period;
-                        this.orbitalPeriod = data.orbital_period;
-                        this.diameter = data.diameter;
-                        this.climate = data.climate;
-                        this.gravity = data.gravity;
-                        this.terrain = data.terrain;
-                        this.surfaceWater = data.surface_water;
-                        this.population = data.population;
-                    
-                        if (data.residents.length > 0) {
+
+                        // FETCH ALL RESIDENTS ENDPOINTS
+                        const getResidents = () => {
+                            const residentsData = [];
                             for (let i = 0; i < data.residents.length; i++) {
-                                fetch(data.residents[i])
-                                .then(res => {
-                                    if (res.ok) {
-                                        return res.json();
-                                    }
-                                })
-                                .then(data => {
-                                    this.residents.push(data.name);
-                                })
-                                .catch(error => console.log('Something went wrong loading the residents.\nError:\n', error))
-                            }
+                                residentsData.push(fetch(data.residents[i])
+                                .then(res => res.json())
+                            )}
+                            return Promise.all(residentsData)
+                        }
+                    
+                        // FETCH ALL FILMS ENDPOINTS
+                        const getFilms = () => {
+                            const filmsData = [];
+                            for (let i = 0; i < data.films.length; i++) {
+                                filmsData.push(fetch(data.films[i])
+                                .then( res => res.json())
+                            )}
+                            return Promise.all(filmsData)
                         }
 
-                        if (data.films.length > 0) {
-                            for (let i = 0; i < data.films.length; i++) {
-                                fetch(data.films[i])
-                                .then(res => {
-                                    if (res.ok) {
-                                        return res.json();
-                                    }
-                                })
-                                .then(data => {
-                                    this.films.push(data.title);
-                                })
-                                .catch(error => console.log('Something went wrong loading the films.\nError:\n', error))
+                        // GET ALL PROMISES AND UPDATE FRONT
+                        Promise.all([data, getResidents(), getFilms()]).then(data => {
+                            const generalData = data[0];
+                            const fullResidentsDetails = data[1];
+                            const fullfilmsDetails = data[2];
+
+                            if (generalData) {
+                                this.name = generalData.name;
+                                this.rotationPeriod = generalData.rotation_period;
+                                this.orbitalPeriod = generalData.orbital_period;
+                                this.diameter = generalData.diameter;
+                                this.climate = generalData.climate;
+                                this.gravity = generalData.gravity;
+                                this.terrain = generalData.terrain;
+                                this.surfaceWater = generalData.surface_water;
+                                this.population = generalData.population;
                             }
-                        }
+
+                            if (fullResidentsDetails.length > 0) {
+                                const residents = []; 
+                                for (let i = 0; i < fullResidentsDetails.length; i++) {
+                                    residents.push(fullResidentsDetails[i].name)
+                                }
+                                this.residents = residents;
+                            }
+
+                            if (fullfilmsDetails.length > 0) {
+                                const films = []; 
+                                for (let i = 0; i < fullfilmsDetails.length; i++) {
+                                    films.push(fullfilmsDetails[i].title)
+                                }
+                                this.films = films;
+                            }
+                        });
                     }
                 })
                 .catch (error => console.log(error));

@@ -52,7 +52,7 @@ export default {
         }
     },
     methods: {
-        // GET STARSHIP DETAIL FROM SWAPI - ASYNC/AWAIT
+        // GET STARSHIP DETAIL FROM SWAPI - AXIOS ASYNC/AWAIT
         async getStarshipsDetails() {
             try {
                 // GET starshipId FROM ROUTE PARAMS
@@ -60,10 +60,32 @@ export default {
 
                 if (starshipId) {
                 
-                    // GENERAL INFO
+                    // GET STARSHIP GENERAL INFO
                     const res = await axios('https://swapi.dev/api/starships/'+starshipId); 
                     const starshipDetails = res.data;
-                    if (res) {
+
+                    // GET PILOTS
+                    const pilots = [];
+                    if (starshipDetails.pilots.length > 0) {
+                        for (let i = 0; i < starshipDetails.pilots.length; i++) {
+                            let resPilots = await axios(starshipDetails.pilots[i]);
+                            pilots.push(resPilots.data.name);
+                        }
+                    }
+
+                    // GET FILMS
+                    const films = [];
+                    if (starshipDetails.films.length > 0) {
+                        for (let i = 0; i < starshipDetails.films.length; i++) {
+                            let resFilms = await axios(starshipDetails.films[i]);
+                            films.push(resFilms.data.title);
+                        }
+                    }
+
+                    // GET ALL PROMISES AND UPDATE FRONT
+                    await Promise.all([starshipDetails, pilots, films])
+
+                    if (starshipDetails) {
                         this.name = starshipDetails.name;
                         this.model = starshipDetails.model;
                         this.manufacturer = starshipDetails.manufacturer;
@@ -77,25 +99,9 @@ export default {
                         this.hyperdriveRating = starshipDetails.hyperdrive_rating;
                         this.MGLT = starshipDetails.MGLT;
                         this.starshipsClass = starshipDetails.starship_class;
-                        
                     }
-
-                    // PILOTS
-                    if (starshipDetails.pilots.length > 0) {
-                        for (let i = 0; i < starshipDetails.pilots.length; i++) {
-                            let resPilots = await axios(starshipDetails.pilots[i]);
-                            this.pilots.push(resPilots.data.name);
-                        }
-                    }
-
-                    // FILMS
-                    if (starshipDetails.films.length > 0) {
-                        for (let i = 0; i < starshipDetails.films.length; i++) {
-                            let resFilms = await axios(starshipDetails.films[i]);
-                            this.films.push(resFilms.data.title);
-                        }
-                    }
-
+                    if (starshipDetails.pilots.length > 0) this.pilots = pilots;
+                    if (starshipDetails.films.length > 0) this.films = films;
                 }
             } catch (error) {
                 // alert('Something went wrong...');

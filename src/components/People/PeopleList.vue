@@ -25,11 +25,13 @@ export default {
             try {
                 const req = await fetch('https://swapi.dev/api/people'); 
                 const res = await req.json();
-
+                
+                const people = [];
                 if (res) {
                     for (let p = 0; p < res.results.length; p++) {
-                        this.people.push(res.results[p])
+                        people.push(res.results[p])
                     }
+                    this.people = people;
                 }
             } catch (error) {
                 // alert('Something went wrong...');

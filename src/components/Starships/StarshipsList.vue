@@ -25,11 +25,13 @@ export default {
         async getStarships() {
             try {
                 const res = await axios('https://swapi.dev/api/starships'); 
-                const starships = res.data.results;
-                if (starships) {
-                    for (let i = 0; i < starships.length; i++) {
-                        this.starships.push(starships[i])
+                const resStarships = res.data.results;
+                const starships = [];
+                if (resStarships) {
+                    for (let i = 0; i < resStarships.length; i++) {
+                        starships.push(resStarships[i])
                     }
+                    this.starships = starships;
                 } 
             } catch (error) { 
                 console.log(error) 

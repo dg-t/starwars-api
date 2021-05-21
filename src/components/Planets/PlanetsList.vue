@@ -30,9 +30,11 @@ export default {
             })
             .then((data) => {
                 if (data) {
+                    const planets = [];
                     for (let p = 0; p < data.results.length; p++) {
-                        this.planets.push(data.results[p])
+                        planets.push(data.results[p])
                     }
+                    this.planets = planets;
                 }
             })
             .catch(error => console.log(error));
@@ -41,9 +43,8 @@ export default {
     created() {
         this.getPlanets();
     }
-
-
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
