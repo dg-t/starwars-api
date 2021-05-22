@@ -1,40 +1,42 @@
 <template>
     <section class="container-fluid">
         <p v-if='isError'  class="fixed-top alert alert-warning">Something went wrong...</p>
-        <p v-if="isLoading">{{ loadingMsg }}</p>
-        <div v-else>
-            <div>
-                <div class="container-details-header">
-                    <h3 class="details-header">{{ name }}</h3>
-                </div>
-                <div class="container-details-data">
-                    <p><span>Rotation period:</span> {{ rotationPeriod }}</p>
-                    <p><span>Orbital period:</span> {{ orbitalPeriod }}</p>
-                    <p><span>Diameter:</span> {{ diameter }}</p>
-                    <p><span>Climate:</span> {{ climate }}</p>
-                    <p><span>Gravity:</span> {{ gravity }}</p>
-                    <p><span>Terrain:</span> {{ terrain }}</p>
-                    <p><span>Surface water:</span> {{ surfaceWater }}</p>
-                    <p><span>population:</span> {{ population }}</p>
-                </div>
-                <div class="container-details-data">
-                    <div v-if="residents.length > 0">
-                        <span>Residents:</span> 
-                        <ul class="pt-2">
-                            <li v-for="(resident, index) in residents" :key="index"> {{ resident }}. </li>
-                        </ul>
+        <transition name="routes" mode="out-in">
+            <p v-if="isLoading" class="loading">{{ loadingMsg }}</p>
+            <div v-else>
+                <div>
+                    <div class="container-details-header">
+                        <h3 class="details-header">{{ name }}</h3>
                     </div>
-                    <div v-if="films.length > 0">
-                        <span>Films:</span> 
-                        <ul class="pt-2">
-                            <li v-for="(film, index) in films" :key="index"> {{ film }}. </li>
-                        </ul>
+                    <div class="container-details-data">
+                        <p><span>Rotation period:</span> {{ rotationPeriod }}</p>
+                        <p><span>Orbital period:</span> {{ orbitalPeriod }}</p>
+                        <p><span>Diameter:</span> {{ diameter }}</p>
+                        <p><span>Climate:</span> {{ climate }}</p>
+                        <p><span>Gravity:</span> {{ gravity }}</p>
+                        <p><span>Terrain:</span> {{ terrain }}</p>
+                        <p><span>Surface water:</span> {{ surfaceWater }}</p>
+                        <p><span>population:</span> {{ population }}</p>
+                    </div>
+                    <div class="container-details-data">
+                        <div v-if="residents.length > 0">
+                            <span>Residents:</span> 
+                            <ul class="pt-2">
+                                <li v-for="(resident, index) in residents" :key="index"> {{ resident }}. </li>
+                            </ul>
+                        </div>
+                        <div v-if="films.length > 0">
+                            <span>Films:</span> 
+                            <ul class="pt-2">
+                                <li v-for="(film, index) in films" :key="index"> {{ film }}. </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </transition>
         <div>
-            <router-link to="/planets/" class="btn btn-primary">Go back</router-link>
+            <router-link to="/planets/" class="btn btn-secondary btngoback">Go back</router-link>
         </div>
     </section>
 </template>

@@ -11,6 +11,7 @@ import StarshipsList from './components/Starships/StarshipsList.vue';
 import StarshipDetails from './components/Starships/StarshipDetails.vue';
 import PlanetsList from './components/Planets/PlanetsList.vue';
 import PlanetDetails from './components/Planets/PlanetDetails.vue';
+import NotFound from './components/NotFound/NotFound.vue';
 
 const app = createApp(App);
 
@@ -27,6 +28,7 @@ const router = createRouter({
         { path: '/starships/:starshipId', component: StarshipDetails },
         { path: '/planets', component: PlanetsList },
         { path: '/planets/:planetId', component: PlanetDetails },
+        { path: '/:notfound(.*)', component: NotFound }
     ]
 })
 

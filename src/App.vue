@@ -1,6 +1,10 @@
 <template>
   <app-header />
-  <router-view></router-view>
+  <router-view v-slot="slotProps">
+      <transition name="routes" mode="out-in">
+        <component :is="slotProps.Component"></component>
+      </transition>
+    </router-view>
 </template>
 
 <script>
@@ -118,6 +122,33 @@ html {
   border-radius: 5px;
 }
 
+/** LOADING */
+
+.loading {
+  font-size: 40px;
+  text-align: center;
+  padding: 30px;
+}
+
+/** ANIMATION ROUTE */
+
+.routes-enter-active {
+  animation: animate-routes 0.5s ease-in;
+}
+
+.routes-leave-from {
+  opacity :0;
+}
+
+@keyframes animate-routes {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
 
 /** MEDIA QUERY */
 

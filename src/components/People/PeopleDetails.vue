@@ -1,49 +1,51 @@
 <template>
     <section class="container-fluid">
         <p v-if='isError'  class="fixed-top alert alert-warning">Something went wrong...</p>
-        <p v-if="isLoading">{{ loadingMsg }}</p>
-        <div v-else>
-            <div>
-                <div class="container-details-header">
-                    <h3 class="details-header">{{ name }}</h3>
+        <transition name="routes" mode="out-in">
+            <p v-if="isLoading" class="loading">{{ loadingMsg }}</p>
+            <div v-else>
+                <div>
+                    <div class="container-details-header">
+                        <h3 class="details-header">{{ name }}</h3>
+                    </div>
+                    <div class="container-details-data">
+                        <p><span>Height:</span> {{ height }}</p>
+                        <p><span>Mass:</span> {{ mass }}</p>
+                        <p><span>Hair color:</span> {{ hairColor }}</p>
+                        <p><span>Eye color:</span> {{ eyeColor }}</p>
+                        <p><span>Birth year:</span> {{ birthYear }}</p>
+                        <p><span>Gender:</span> {{ gender }}</p>
+                        <p><span>Planet:</span> {{ planet }}</p>
+                    </div>
                 </div>
                 <div class="container-details-data">
-                    <p><span>Height:</span> {{ height }}</p>
-                    <p><span>Mass:</span> {{ mass }}</p>
-                    <p><span>Hair color:</span> {{ hairColor }}</p>
-                    <p><span>Eye color:</span> {{ eyeColor }}</p>
-                    <p><span>Birth year:</span> {{ birthYear }}</p>
-                    <p><span>Gender:</span> {{ gender }}</p>
-                    <p><span>Planet:</span> {{ planet }}</p>
+                    <div v-if="films.length > 0">
+                        <span>Films:</span>
+                        <ul class="pt-2">
+                            <li v-for="(film, index) in films" :key="index"> {{ film }}. </li>
+                        </ul>
+                    </div>
+                    <div v-if="species.length > 0" class="pt-2">
+                        <span>Species:</span>
+                        <ul class="pt-2">
+                            <li v-for="(specie, index) in species" :key="index">{{ specie }}. </li>
+                        </ul>
+                    </div>
+                    <div v-if="vehicles.length > 0" class="pt-2">
+                        <span>Vehicles:</span>
+                        <ul class="pt-2">
+                            <li v-for="(vehicle, index) in vehicles" :key="index">{{ vehicle }}. </li>
+                        </ul>
+                    </div>
+                    <div v-if="starships.length > 0" class="pt-2">
+                        <span>Starships:</span>
+                        <ul class="pt-2">
+                            <li v-for="(starship, index) in starships" :key="index">{{ starship }}. </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div class="container-details-data">
-                <div v-if="films.length > 0">
-                    <span>Films:</span>
-                    <ul class="pt-2">
-                        <li v-for="(film, index) in films" :key="index"> {{ film }}. </li>
-                    </ul>
-                </div>
-                <div v-if="species.length > 0" class="pt-2">
-                    <span>Species:</span>
-                    <ul class="pt-2">
-                        <li v-for="(specie, index) in species" :key="index">{{ specie }}. </li>
-                    </ul>
-                </div>
-                <div v-if="vehicles.length > 0" class="pt-2">
-                    <span>Vehicles:</span>
-                    <ul class="pt-2">
-                        <li v-for="(vehicle, index) in vehicles" :key="index">{{ vehicle }}. </li>
-                    </ul>
-                </div>
-                <div v-if="starships.length > 0" class="pt-2">
-                    <span>Starships:</span>
-                    <ul class="pt-2">
-                        <li v-for="(starship, index) in starships" :key="index">{{ starship }}. </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        </transition>
         <div>
             <router-link to="/people/" class="btn btn-secondary btngoback">Go back</router-link>
         </div>

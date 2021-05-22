@@ -8,13 +8,15 @@
             <input class="filter" type="text" v-model="filterPlanets" placeholder="Search planets">
         </div>
         <div class="container-list-data">
-            <p v-if="isLoading">{{ loadingMsg }}</p>
-            <p v-else-if="filteredPlanets == ''" class="alert alert-warning py-3 mt-3">No data found with this criteria. Please try again.</p>
-            <div v-else>
-                <div v-for="(p, index) in filteredPlanets" :key="index">
-                    <router-link :to="'/planets/'+p.url.split('/').slice(1).slice(-2).join('/')" class="btn list-data">{{p.name}}</router-link>
+            <transition name="routes" mode="out-in">
+                <p key=1 v-if="isLoading" class="loading">{{ loadingMsg }}</p>
+                <p key=2 v-else-if="filteredPlanets == ''" class="alert alert-warning py-3 mt-3">No data found with this criteria. Please try again.</p>
+                <div key=3 v-else>
+                    <div v-for="(p, index) in filteredPlanets" :key="index">
+                        <router-link :to="'/planets/'+p.url.split('/').slice(1).slice(-2).join('/')" class="btn list-data">{{p.name}}</router-link>
+                    </div>
                 </div>
-            </div>
+            </transition>
         </div>
         <div class="container-btngoback">
             <router-link to="/" class="btn btn-secondary btngoback">Go Back</router-link>

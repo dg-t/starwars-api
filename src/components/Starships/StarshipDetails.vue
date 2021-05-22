@@ -1,42 +1,44 @@
 <template>
     <section class="container-fluid">
         <p v-if='isError'  class="fixed-top alert alert-warning">Something went wrong...</p>
-        <p v-if="isLoading">{{ loadingMsg }}</p>
-        <div v-else>
-            <div>
-                <div class="container-details-header">
-                    <h3 class="details-header">{{ name }}</h3>
+        <transition name="routes" mode="out-in">
+            <p v-if="isLoading" class="loading">{{ loadingMsg }}</p>
+            <div v-else>
+                <div>
+                    <div class="container-details-header">
+                        <h3 class="details-header">{{ name }}</h3>
+                    </div>
+                    <div class="container-details-data">
+                        <p>Model: {{ model }}</p>
+                        <p>Manufacturer: {{ manufacturer }}</p>
+                        <p>Cost In credits: {{ costInCredits }}</p>
+                        <p>Length: {{ length }}</p>
+                        <p>Max atmosphering speed: {{ maxAtmospheringSpeed }}</p>
+                        <p>Crew: {{ crew }}</p>
+                        <p>Passengers: {{ passengers }}</p>
+                        <p>Cargo capacity: {{ cargoCapacity }}</p>
+                        <p>Consumables: {{ consumables }}</p>
+                        <p>Hyperdrive rating: {{ hyperdriveRating }}</p>
+                        <p>MGLT: {{ MGLT }}</p>
+                        <p>Starships class: {{ starshipsClass }}</p>
+                    </div>
                 </div>
                 <div class="container-details-data">
-                    <p>Model: {{ model }}</p>
-                    <p>Manufacturer: {{ manufacturer }}</p>
-                    <p>Cost In credits: {{ costInCredits }}</p>
-                    <p>Length: {{ length }}</p>
-                    <p>Max atmosphering speed: {{ maxAtmospheringSpeed }}</p>
-                    <p>Crew: {{ crew }}</p>
-                    <p>Passengers: {{ passengers }}</p>
-                    <p>Cargo capacity: {{ cargoCapacity }}</p>
-                    <p>Consumables: {{ consumables }}</p>
-                    <p>Hyperdrive rating: {{ hyperdriveRating }}</p>
-                    <p>MGLT: {{ MGLT }}</p>
-                    <p>Starships class: {{ starshipsClass }}</p>
+                    <div v-if="films.length > 0">
+                        <span>Films: </span>
+                        <ul class="pt-2">
+                            <li v-for="(film, index) in films" :key="index">{{ film }}. </li>
+                        </ul>
+                    </div>
+                    <div v-if="pilots.length > 0">
+                        <span>Pilots:</span> 
+                        <ul class="pt-2">
+                            <li v-for="(pilot, index) in pilots" :key="index">{{ pilot }}. </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div class="container-details-data">
-                <div v-if="films.length > 0">
-                    <span>Films: </span>
-                    <ul class="pt-2">
-                        <li v-for="(film, index) in films" :key="index">{{ film }}. </li>
-                    </ul>
-                </div>
-                <div v-if="pilots.length > 0">
-                    <span>Pilots:</span> 
-                    <ul class="pt-2">
-                        <li v-for="(pilot, index) in pilots" :key="index">{{ pilot }}. </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        </transition>
         <div>
             <router-link to="/starships/" class="btn btn-secondary btngoback">Go back</router-link>
         </div>
