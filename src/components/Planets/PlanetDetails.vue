@@ -1,6 +1,7 @@
 <template>
     <section class="container-fluid">
-        <p v-if="isLoading">Loading...</p>
+        <p v-if='isError'  class="fixed-top alert alert-warning">Something went wrong...</p>
+        <p v-if="isLoading">{{ loadingMsg }}</p>
         <div v-else>
             <div>
                 <h1>Planet detail</h1>
@@ -28,7 +29,10 @@
 </template>
 
 <script>
+import notificationError from '../mixins/notificationError.js';
+import isLoading from '../mixins/isLoading.js';
 export default {
+    mixins: [notificationError, isLoading],
     name: 'PlanetDetails',
     data() {
         return {
@@ -42,23 +46,26 @@ export default {
             surfaceWater: '',
             population: '',
             residents: [],
-            films: [],
-            isLoading: false
+            films: []
         }
     },
     methods: {
         // GET PLANET DETAILS FROM SWAPI - THEN/CATCH
         getPlanetDetails() {
-            this.isLoading = true;
+            
             // GET planetId FROM ROUTE PARAMS
             const planetId = this.$route.params.planetId;
 
             if (planetId) {
+                this.isLoading = true;
                 // GET PLANET GENERAL INFO
                 fetch(`https://swapi.dev/api/planets/${planetId}`)
                 .then(res => {
                     if (res.ok) {
                         return res.json();
+                    } else {
+                        this.loadingMsg = "An error occured. Cannot load data."
+                        this.errorNotification();
                     }
                 })
                 .then(data => {
@@ -121,7 +128,11 @@ export default {
                         });
                     }
                 })
-                .catch (error => console.log(error));
+                .catch (error => {
+                    this.errorNotification();
+                    this.loadingMsg = "An error occured. Cannot load data."
+                    console.log(error)
+                });
             }
         }
     },

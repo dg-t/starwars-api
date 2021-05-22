@@ -1,8 +1,8 @@
 <template>
     <section class="container-fluid">
+        <p v-if='isError'  class="fixed-top alert alert-warning">Something went wrong...</p>
         <h1>People</h1>
-        
-        <p v-if="isLoading">Loading...</p>
+        <p v-if="isLoading">{{ loadingMsg }}</p>
         <div v-else>
             <div v-for="(p, index) in people"
                 :key="index">
@@ -16,12 +16,14 @@
 </template>
 
 <script>
+import notificationError from '../mixins/notificationError.js';
+import isLoading from '../mixins/isLoading.js';
 export default {
+    mixins: [notificationError, isLoading],
     name: 'PeopleList',
     data() {
         return {
             people: [],
-            isLoading: false
         }
     },
     methods: {
@@ -41,7 +43,8 @@ export default {
                     this.isLoading = false;
                 }
             } catch (error) {
-                // alert('Something went wrong...');
+                this.errorNotification();
+                this.loadingMsg = "An error occured. Cannot load data."
                 console.log(error)
             }
         }

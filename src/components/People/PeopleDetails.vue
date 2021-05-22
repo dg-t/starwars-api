@@ -1,6 +1,7 @@
 <template>
     <section class="container-fluid">
-        <p v-if="isLoading">Loading...</p>
+        <p v-if='isError'  class="fixed-top alert alert-warning">Something went wrong...</p>
+        <p v-if="isLoading">{{ loadingMsg }}</p>
         <div v-else>
             <div>
                 <h1>People detail</h1>
@@ -33,8 +34,11 @@
 </template>
 
 <script>
+import notificationError from '../mixins/notificationError.js';
+import isLoading from '../mixins/isLoading.js';
 export default {
-    name: 'PeopleList',
+    mixins: [notificationError, isLoading],
+    name: 'PeopleDetails',
     data() {
         return {
             name: '',
@@ -48,8 +52,7 @@ export default {
             films: [],
             species: [],
             vehicles: [],
-            starships: [],
-            isLoading: false
+            starships: []
         }
     },
     methods: {
@@ -134,7 +137,8 @@ export default {
                     this.isLoading = false;
                 }
             } catch (error) {
-                alert('Something went wrong...');
+                this.errorNotification();
+                this.loadingMsg = "An error occured. Cannot load data."
                 console.log(error);
             }
         }
