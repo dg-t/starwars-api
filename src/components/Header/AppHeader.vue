@@ -16,15 +16,25 @@ export default {
 
 /** HEADER */
 
+header {
+    background-color: black;
+    color: white;
+    
+}
+
+h1 {
+    font-size: 60px;
+    text-shadow: 1px 1px 3px #FF0000, 0 0 5px #0000FF;
+}
+
 .separator:after {
   display: block;
-  background-color: #fdce5c;
+  background-color: #90ee90;
   content: " ";
-  height: 2px;
+  height: 3px;
   width: 70%;
   margin: 0 auto;
   bottom: 0;
-  margin-bottom: 30px;
 }
 
 </style>

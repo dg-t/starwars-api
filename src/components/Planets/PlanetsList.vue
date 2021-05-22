@@ -1,16 +1,23 @@
 <template>
     <section class="container-fluid">
         <p v-if='isError'  class="fixed-top alert alert-warning">Something went wrong...</p>
-        <h1>Planets</h1>
-        <p v-if="isLoading">{{ loadingMsg }}</p>
-        <div v-else>
-            <div v-for="(p, index) in planets"
-                :key="index">
-                <router-link :to="'/planets/'+p.url.split('/').slice(1).slice(-2).join('/')" class="btn btn-primary">{{p.name}}</router-link>
+        <div class="container-list-header">
+            <h1 class="list-header">Planets</h1>
+        </div>
+        <div class="container-filter">
+            <input class="filter" type="text" v-model="filterPlanets" placeholder="Search planets">
+        </div>
+        <div class="container-list-data">
+            <p v-if="isLoading">{{ loadingMsg }}</p>
+            <p v-else-if="filteredPlanets == ''" class="alert alert-warning py-3 mt-3">No data found with this criteria. Please try again.</p>
+            <div v-else>
+                <div v-for="(p, index) in filteredPlanets" :key="index">
+                    <router-link :to="'/planets/'+p.url.split('/').slice(1).slice(-2).join('/')" class="btn list-data">{{p.name}}</router-link>
+                </div>
             </div>
         </div>
-        <div>
-            <router-link to="/" class="btn btn-primary">Go back</router-link>
+        <div class="container-btngoback">
+            <router-link to="/" class="btn btn-secondary btngoback">Go Back</router-link>
         </div>
     </section>
 </template>
@@ -24,6 +31,7 @@ export default {
     data() {
         return {
             planets: [],
+            filterPlanets: ''
         }
     },
     methods: {
@@ -52,6 +60,13 @@ export default {
                 console.log(error);
             });
         },
+    },
+    computed: {
+        filteredPlanets() {
+            return this.planets.filter(planet => {
+                return planet.name.toLowerCase().match(this.filterPlanets.toLowerCase())
+            })
+        }
     },
     created() {
         this.getPlanets();

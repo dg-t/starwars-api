@@ -1,5 +1,4 @@
 export default {
-    name: 'PlanetDetails',
     data() {
         return {
             notificationError: 'Something went wrong...',

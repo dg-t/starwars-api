@@ -1,16 +1,23 @@
 <template>
     <section class="container-fluid">
         <p v-if='isError'  class="fixed-top alert alert-warning">Something went wrong...</p>
-        <h1>People</h1>
-        <p v-if="isLoading">{{ loadingMsg }}</p>
-        <div v-else>
-            <div v-for="(p, index) in people"
-                :key="index">
-                <router-link :to="'/people/'+p.url.split('/').slice(1).slice(-2).join('/')" class="btn btn-primary">{{p.name}}</router-link>
+        <div class="container-list-header">
+            <h1 class="list-header">People</h1>
+        </div>
+        <div class="container-filter">
+            <input class="filter" type="text" v-model="filterPeople" placeholder="Search people">
+        </div>
+        <div class="container-list-data">
+            <p v-if="isLoading">{{ loadingMsg }}</p>
+            <p v-else-if="filteredPeople == ''" class="alert alert-warning py-3 mt-3">No data found with this criteria. Please try again.</p>
+            <div v-else>
+                <div v-for="(p, index) in filteredPeople" :key="index">
+                    <router-link :to="'/people/'+p.url.split('/').slice(1).slice(-2).join('/')" class="btn list-data">{{p.name}}</router-link>
+                </div>
             </div>
         </div>
-        <div>
-            <router-link to="/" class="btn btn-primary">Go back</router-link>
+        <div class="container-btngoback">
+            <router-link to="/" class="btn btn-secondary btngoback">Go Back</router-link>
         </div>
     </section>
 </template>
@@ -24,6 +31,7 @@ export default {
     data() {
         return {
             people: [],
+            filterPeople: ''
         }
     },
     methods: {
@@ -47,6 +55,13 @@ export default {
                 this.loadingMsg = "An error occured. Cannot load data."
                 console.log(error)
             }
+        }
+    },
+    computed: {
+        filteredPeople() {
+            return this.people.filter(person => {
+                return person.name.toLowerCase().match(this.filterPeople.toLowerCase())
+            })
         }
     },
     created() {

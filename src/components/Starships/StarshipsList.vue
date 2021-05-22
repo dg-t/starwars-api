@@ -1,16 +1,23 @@
 <template>
     <section class="container-fluid">
         <p v-if='isError'  class="fixed-top alert alert-warning">Something went wrong...</p>
-        <h1>Starships</h1>
-        <p v-if="isLoading">{{ loadingMsg }}</p>
-        <div v-else>
-            <div v-for="(s, index) in starships"
-                :key="index">
-                <router-link :to="'/starships/'+s.url.split('/').slice(1).slice(-2).join('/')" class="btn btn-primary">{{s.name}}</router-link>
+        <div class="container-list-header">
+            <h1 class="list-header">Starships</h1>
+        </div>
+        <div class="container-filter">
+            <input class="filter" type="text" v-model="filterStarships" placeholder="Search starships">
+        </div>
+        <div class="container-list-data">
+            <p v-if="isLoading">{{ loadingMsg }}</p>
+            <p v-else-if="filteredStarships == ''" class="alert alert-warning py-3 mt-3">No data found with this criteria. Please try again.</p>
+            <div v-else>
+                <div v-for="(s, index) in filteredStarships" :key="index">
+                    <router-link :to="'/starships/'+s.url.split('/').slice(1).slice(-2).join('/')" class="btn list-data">{{s.name}}</router-link>
+                </div>
             </div>
         </div>
-        <div>
-            <router-link to="/" class="btn btn-primary">Go back</router-link>
+        <div class="container-btngoback">
+            <router-link to="/" class="btn btn-secondary btngoback">Go Back</router-link>
         </div>
     </section>
 </template>
@@ -25,6 +32,7 @@ export default {
     data() {
         return {
             starships: [],
+            filterStarships: ''
         }
     },
     methods: {
@@ -47,6 +55,13 @@ export default {
                 this.loadingMsg = "An error occured. Cannot load data."
                 console.log(error) 
             }
+        }
+    },
+    computed: {
+        filteredStarships() {
+            return this.starships.filter(starship => {
+                return starship.name.toLowerCase().match(this.filterStarships.toLowerCase())
+            })
         }
     },
     created() {

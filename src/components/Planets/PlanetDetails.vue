@@ -4,22 +4,33 @@
         <p v-if="isLoading">{{ loadingMsg }}</p>
         <div v-else>
             <div>
-                <h1>Planet detail</h1>
-                <p>Name: {{ name }}</p>
-                <p>Rotation period: {{ rotationPeriod }}</p>
-                <p>Orbital period: {{ orbitalPeriod }}</p>
-                <p>Diameter: {{ diameter }}</p>
-                <p>Climate: {{ climate }}</p>
-                <p>Gravity: {{ gravity }}</p>
-                <p>Terrain: {{ terrain }}</p>
-                <p>Surface water: {{ surfaceWater }}</p>
-                <p>population: {{ population }}</p>
-            </div>
-            <div>
-                <p v-if="residents.length > 0">Residents: <span v-for="(resident, index) in residents" :key="index">{{ resident }}. </span></p>
-            </div>
-            <div>
-                <p v-if="films.length > 0">Films: <span v-for="(film, index) in films" :key="index">{{ film }}. </span></p>
+                <div class="container-details-header">
+                    <h3 class="details-header">{{ name }}</h3>
+                </div>
+                <div class="container-details-data">
+                    <p><span>Rotation period:</span> {{ rotationPeriod }}</p>
+                    <p><span>Orbital period:</span> {{ orbitalPeriod }}</p>
+                    <p><span>Diameter:</span> {{ diameter }}</p>
+                    <p><span>Climate:</span> {{ climate }}</p>
+                    <p><span>Gravity:</span> {{ gravity }}</p>
+                    <p><span>Terrain:</span> {{ terrain }}</p>
+                    <p><span>Surface water:</span> {{ surfaceWater }}</p>
+                    <p><span>population:</span> {{ population }}</p>
+                </div>
+                <div class="container-details-data">
+                    <div v-if="residents.length > 0">
+                        <span>Residents:</span> 
+                        <ul class="pt-2">
+                            <li v-for="(resident, index) in residents" :key="index"> {{ resident }}. </li>
+                        </ul>
+                    </div>
+                    <div v-if="films.length > 0">
+                        <span>Films:</span> 
+                        <ul class="pt-2">
+                            <li v-for="(film, index) in films" :key="index"> {{ film }}. </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
         <div>

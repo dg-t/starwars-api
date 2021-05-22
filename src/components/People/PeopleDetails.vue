@@ -4,31 +4,48 @@
         <p v-if="isLoading">{{ loadingMsg }}</p>
         <div v-else>
             <div>
-                <h1>People detail</h1>
-                <p>Name: {{ name }}</p>
-                <p>Height: {{ height }}</p>
-                <p>Mass: {{ mass }}</p>
-                <p>Hair color: {{ hairColor }}</p>
-                <p>Eye color: {{ eyeColor }}</p>
-                <p>Birth year: {{ birthYear }}</p>
-                <p>Gender: {{ gender }}</p>
-                <p>Planet: {{ planet }}</p>
+                <div class="container-details-header">
+                    <h3 class="details-header">{{ name }}</h3>
+                </div>
+                <div class="container-details-data">
+                    <p><span>Height:</span> {{ height }}</p>
+                    <p><span>Mass:</span> {{ mass }}</p>
+                    <p><span>Hair color:</span> {{ hairColor }}</p>
+                    <p><span>Eye color:</span> {{ eyeColor }}</p>
+                    <p><span>Birth year:</span> {{ birthYear }}</p>
+                    <p><span>Gender:</span> {{ gender }}</p>
+                    <p><span>Planet:</span> {{ planet }}</p>
+                </div>
             </div>
-            <div>
-                <p v-if="films.length > 0">Films: <span v-for="(film, index) in films" :key="index">{{ film }}. </span></p>
-            </div>
-            <div>
-                <p v-if="species.length > 0">Species: <span v-for="(specie, index) in species" :key="index">{{ specie }}. </span></p>
-            </div>
-            <div>
-                <p v-if="vehicles.length > 0">Vehicles: <span v-for="(vehicle, index) in vehicles" :key="index">{{ vehicle }}. </span></p>
-            </div>
-            <div>
-                <p v-if="starships.length > 0">Starships: <span v-for="(starship, index) in starships" :key="index">{{ starship }}. </span></p>
+            <div class="container-details-data">
+                <div v-if="films.length > 0">
+                    <span>Films:</span>
+                    <ul class="pt-2">
+                        <li v-for="(film, index) in films" :key="index"> {{ film }}. </li>
+                    </ul>
+                </div>
+                <div v-if="species.length > 0" class="pt-2">
+                    <span>Species:</span>
+                    <ul class="pt-2">
+                        <li v-for="(specie, index) in species" :key="index">{{ specie }}. </li>
+                    </ul>
+                </div>
+                <div v-if="vehicles.length > 0" class="pt-2">
+                    <span>Vehicles:</span>
+                    <ul class="pt-2">
+                        <li v-for="(vehicle, index) in vehicles" :key="index">{{ vehicle }}. </li>
+                    </ul>
+                </div>
+                <div v-if="starships.length > 0" class="pt-2">
+                    <span>Starships:</span>
+                    <ul class="pt-2">
+                        <li v-for="(starship, index) in starships" :key="index">{{ starship }}. </li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div>
-            <router-link to="/people/" class="btn btn-primary">Go back</router-link>
+            <router-link to="/people/" class="btn btn-secondary btngoback">Go back</router-link>
         </div>
     </section>
 </template>
@@ -129,10 +146,10 @@ export default {
                         this.gender = res.gender;
                     }
                     if (planet) this.planet = planet;
-                    if ( films.length > 0) this.films.push(films.join('. '));
-                    if ( species.length > 0) this.species.push(species.join('. '));
-                    if ( vehicles.length > 0) this.vehicles.push(vehicles.join('. '));
-                    if ( starships.length > 0) this.starships.push(starships.join('. '));
+                    if ( films.length > 0) this.films = films;
+                    if ( species.length > 0) this.species = species;
+                    if ( vehicles.length > 0) this.vehicles = vehicles;
+                    if ( starships.length > 0) this.starships= starships;
 
                     this.isLoading = false;
                 }
