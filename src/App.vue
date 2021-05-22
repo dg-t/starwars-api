@@ -1,5 +1,7 @@
 <template>
+  <!-- App header -->
   <app-header />
+  <!-- Manage and display all routes-->
   <router-view v-slot="slotProps">
       <transition name="routes" mode="out-in">
         <component :is="slotProps.Component"></component>
@@ -110,16 +112,51 @@ html {
   transition: 0.8s;
 }
 
-/** FILTER */
+/** FILTER / SORT */
 
-.container-filter {
+.container-filter,
+.container-sort,
+.container-sort-details {
   padding: 20px;
   margin-left: 18px;
 }
 
-.filter {
+.filter,
+.btn-sort {
   padding: 5px;
   border-radius: 5px;
+}
+
+/** SORT */
+
+.btn-sort {
+  box-shadow: 1px 1px 1px 1px #888888;
+  font-size: 15px;
+  margin-right: 30px;
+  background-color: #f0eeee;
+  transition: transform .2s;
+}
+
+.btn-sort:active {
+  transform: scale(1.05);
+}
+
+/** SORT ICONS */
+
+.custom-icondown {
+    display:block;
+    font-size: 25px;
+    line-height: 10px;
+    width: 80px;
+    height: 20px;
+}
+
+.custom-iconup {
+    display:block;
+    font-size: 25px;
+    line-height: 40px;
+    width: 80px;
+    height: 20px;
 }
 
 /** LOADING */
@@ -156,7 +193,8 @@ html {
 
   /** LIST / DETAILS */
 
-  .list-header, .details-header {
+  .list-header, 
+  .details-header {
     text-align: center;
   }
 
@@ -174,28 +212,45 @@ html {
     justify-content:center;
   }
 
-  /** FILTER */
+  /** FILTER / SORT */
 
-  .container-filter {
+  .container-filter,
+  .container-sort {
     display: flex;
     justify-content: center;
     margin-left: 0;
   }
 
-  .filter {
+  .filter,
+  .btn-sort {
     text-align: center;
     margin-left: 3%;
+  }
+
+  /** SORT */
+
+  .container-sort-details {
+    padding: 10px 0;
+    margin-left: 0;
   }
 
 }
 
 @media only screen and (max-width: 680px)  {
 
-  /** FILTER */
+  /** FILTER / SORT */
 
-  .filter {
+  .filter, 
+  .btn-sort {
     text-align: center;
     margin-left: 5%;
+  }
+
+  /** SORT */
+
+  .container-sort-details {
+    display: flex;
+    justify-content: space-around;
   }
 
 }

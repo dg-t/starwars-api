@@ -1,12 +1,21 @@
 <template>
     <section class="container-fluid">
+
+        <!-- Show error notification if something goes wrong -->
         <p v-if='isError'  class="fixed-top alert alert-warning">Something went wrong...</p>
+
+        <!-- If loading/error show Loading/error text while retriving data -->
+        <!-- If data is retrived correctly show data -->
         <transition name="routes" mode="out-in">
             <p v-if="isLoading" class="loading">{{ loadingMsg }}</p>
             <div v-else>
                 <div>
                     <div class="container-details-header">
                         <h3 class="details-header">{{ name }}</h3>
+                    </div>
+                    <div class="container-sort-details">
+                        <button v-if="residents.length > 0" type="button" class="btn btn-sort" @click="sortDetails(residents)">Sort residents</button>
+                        <button v-if="films.length > 0" type="button" class="btn btn-sort" @click="sortDetails(films)">Sort movies</button>
                     </div>
                     <div class="container-details-data">
                         <p><span>Rotation period:</span> {{ rotationPeriod }}</p>
@@ -35,8 +44,10 @@
                 </div>
             </div>
         </transition>
+        
+        <!-- Go Back button -->
         <div>
-            <router-link to="/planets/" class="btn btn-secondary btngoback">Go back</router-link>
+            <router-link to="/planets/" class="btn btn-secondary btngoback">Go Back</router-link>
         </div>
     </section>
 </template>
@@ -44,8 +55,9 @@
 <script>
 import notificationError from '../mixins/notificationError.js';
 import isLoading from '../mixins/isLoading.js';
+import sortBy from '../mixins/sortBy';
 export default {
-    mixins: [notificationError, isLoading],
+    mixins: [notificationError, isLoading, sortBy],
     name: 'PlanetDetails',
     data() {
         return {
@@ -152,7 +164,6 @@ export default {
     created() {
         this.getPlanetDetails();
     }
-
 
 }
 </script>

@@ -1,12 +1,21 @@
 <template>
     <section class="container-fluid">
+
+        <!-- Show error notification if something goes wrong -->
         <p v-if='isError'  class="fixed-top alert alert-warning">Something went wrong...</p>
+
+        <!-- If loading/error show Loading/error text while retriving data -->
+        <!-- If data is retrived correctly show data -->
         <transition name="routes" mode="out-in">
             <p v-if="isLoading" class="loading">{{ loadingMsg }}</p>
             <div v-else>
                 <div>
                     <div class="container-details-header">
                         <h3 class="details-header">{{ name }}</h3>
+                    </div>
+                    <div class="container-sort-details">
+                        <button v-if="films.length > 0" type="button" class="btn btn-sort" @click="sortDetails(films)">Sort movies</button>
+                        <button v-if="pilots.length > 0" type="button" class="btn btn-sort" @click="sortDetails(pilots)">Sort pilots</button>
                     </div>
                     <div class="container-details-data">
                         <p>Model: {{ model }}</p>
@@ -39,6 +48,8 @@
                 </div>
             </div>
         </transition>
+        
+        <!-- Go Back button -->
         <div>
             <router-link to="/starships/" class="btn btn-secondary btngoback">Go back</router-link>
         </div>
@@ -49,8 +60,9 @@
 import axios from 'axios';
 import notificationError from '../mixins/notificationError.js';
 import isLoading from '../mixins/isLoading.js';
+import sortBy from '../mixins/sortBy';
 export default {
-    mixins: [notificationError, isLoading],
+    mixins: [notificationError, isLoading, sortBy],
     name: 'StarshipDetails',
     data() {
         return {

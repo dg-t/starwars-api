@@ -1,5 +1,6 @@
 <template>
     <section class="container-fluid page-notfound">
+        <!-- Page not found -->
         <h1>Page not found</h1>
         <p> Go back to <router-link to="/">homepage</router-link> </p>
     </section>
@@ -7,17 +8,14 @@
 
 <script>
 export default {
-    name: 'AppController',
-    data() {
-        return {
-            
-        }
-    }
+    name: 'NotFound'
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+/** PAGE NOT FOUND */
 
 .page-notfound {
     text-align: center;

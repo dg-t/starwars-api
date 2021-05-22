@@ -1,12 +1,23 @@
 <template>
     <section class="container-fluid">
+
+        <!-- Show error notification if something goes wrong -->
         <p v-if='isError'  class="fixed-top alert alert-warning">Something went wrong...</p>
+
+        <!-- If loading/error show Loading/error text while retriving data -->
+        <!-- If data is retrived correctly show data -->
         <transition name="routes" mode="out-in">
             <p v-if="isLoading" class="loading">{{ loadingMsg }}</p>
             <div v-else>
                 <div>
                     <div class="container-details-header">
                         <h3 class="details-header">{{ name }}</h3>
+                    </div>
+                    <div class="container-sort-details">
+                        <button v-if="films.length > 0" type="button" class="btn btn-sort" @click="sortDetails(films)">Sort movies</button>
+                        <button v-if="species.length > 0" type="button" class="btn btn-sort" @click="sortDetails(species)">Sort species</button>
+                        <button v-if="vehicles.length > 0" type="button" class="btn btn-sort" @click="sortDetails(vehicles)">Sort vehicles</button>
+                        <button v-if="starships.length > 0" type="button" class="btn btn-sort" @click="sortDetails(starships)">Sort starships</button>
                     </div>
                     <div class="container-details-data">
                         <p><span>Height:</span> {{ height }}</p>
@@ -46,6 +57,8 @@
                 </div>
             </div>
         </transition>
+        
+        <!-- Go Back button -->
         <div>
             <router-link to="/people/" class="btn btn-secondary btngoback">Go back</router-link>
         </div>
@@ -55,8 +68,9 @@
 <script>
 import notificationError from '../mixins/notificationError.js';
 import isLoading from '../mixins/isLoading.js';
+import sortBy from '../mixins/sortBy';
 export default {
-    mixins: [notificationError, isLoading],
+    mixins: [notificationError, isLoading, sortBy],
     name: 'PeopleDetails',
     data() {
         return {

@@ -1,12 +1,23 @@
 <template>
     <section class="container-fluid">
+
+        <!-- Show error notification if something goes wrong -->
         <p v-if='isError'  class="fixed-top alert alert-warning">Something went wrong...</p>
+        <!-- People list header -->
         <div class="container-list-header">
             <h1 class="list-header">People</h1>
         </div>
+        <!-- Sorting buttons -->
+        <div class="container-sort">
+            <button type="button" class="btn btn-sort" @click="sortDown(people)">Sort down<i class="fas fa-sort-down custom-icondown"></i></button>
+            <button type="button" class="btn btn-sort ms-4" @click="sortUp(people)">Sort up<i class="fas fa-sort-up custom-iconup"></i></button>
+        </div>
+        <!-- Filter input -->
         <div class="container-filter">
             <input class="filter" type="text" v-model="filterPeople" placeholder="Search people">
         </div>
+        <!-- If loading/error show Loading/error text while retriving data -->
+        <!-- If data is retrived correctly show data -->
         <div class="container-list-data">
             <transition name="routes" mode="out-in">
                 <p key=1 v-if="isLoading" class="loading">{{ loadingMsg }}</p>
@@ -18,6 +29,8 @@
                 </div>
             </transition>
         </div>
+
+        <!-- Go Back button -->
         <div class="container-btngoback">
             <router-link to="/" class="btn btn-secondary btngoback">Go Back</router-link>
         </div>
@@ -27,8 +40,9 @@
 <script>
 import notificationError from '../mixins/notificationError.js';
 import isLoading from '../mixins/isLoading.js';
+import sortBy from '../mixins/sortBy.js';
 export default {
-    mixins: [notificationError, isLoading],
+    mixins: [notificationError, isLoading, sortBy],
     name: 'PeopleList',
     data() {
         return {
