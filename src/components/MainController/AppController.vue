@@ -26,7 +26,7 @@ export default {
 .container-controller {
     display: flex;
     justify-content: space-around;
-    padding: 20px;
+    padding: 60px 20px;
 }
 
 /** ICON ATTRIBUTE */
@@ -34,6 +34,21 @@ export default {
 .icon-attribute {
   font-size: 10px;
   visibility: hidden;
+}
+
+/** MEDIA QUERY */
+
+@media only screen and (max-width: 768px)  {
+    
+    .container-controller {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    a {
+        margin: 20px;
+        min-width: 200px;
+    }
 }
 
 </style>
