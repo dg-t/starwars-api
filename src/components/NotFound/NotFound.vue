@@ -2,7 +2,7 @@
     <section class="container-fluid page-notfound">
         <!-- Page not found -->
         <h1>Page not found</h1>
-        <p> Go back to <router-link to="/">homepage</router-link> </p>
+        <p>Go back to <router-link to="/">homepage</router-link></p>
     </section>
 </template>
 

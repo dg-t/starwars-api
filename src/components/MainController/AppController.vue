@@ -14,12 +14,7 @@
 
 <script>
 export default {
-    name: 'AppController',
-    data() {
-        return {
-            
-        }
-    }
+    name: 'AppController'
 }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-    <section class="container-fluid">
+    <section class="container-fluid px-md-5 pt-md-3">
 
         <!-- Show error notification if something goes wrong -->
         <p v-if='isError'  class="fixed-top alert alert-warning">Something went wrong...</p>
@@ -60,7 +60,7 @@
         
         <!-- Go Back button -->
         <div>
-            <router-link to="/people/" class="btn btn-secondary btngoback">Go back</router-link>
+            <router-link to="/people/" class="btn btn-secondary btngoback">Go Back</router-link>
         </div>
     </section>
 </template>
@@ -69,6 +69,7 @@
 import notificationError from '../mixins/notificationError.js';
 import isLoading from '../mixins/isLoading.js';
 import sortBy from '../mixins/sortBy';
+
 export default {
     mixins: [notificationError, isLoading, sortBy],
     name: 'PeopleDetails',
@@ -152,6 +153,7 @@ export default {
 
                     // GET ALL PROMISES AND UPDATE FRONT
                     await Promise.all([res, planet, films, species, vehicles, starships])
+
                     if (res) {
                         this.name = res.name;
                         this.height = res.height;
@@ -171,7 +173,7 @@ export default {
                 }
             } catch (error) {
                 this.errorNotification();
-                this.loadingMsg = "An error occured. Cannot load data."
+                this.loadingMsg = "An error occured. Cannot load data.";
                 console.log(error);
             }
         }
@@ -183,8 +185,4 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-
-
-</style>
+<style scoped></style>

@@ -1,5 +1,5 @@
 <template>
-    <section class="container-fluid">
+    <section class="container-fluid px-md-5 pt-md-3">
 
         <!-- Show error notification if something goes wrong -->
         <p v-if='isError'  class="fixed-top alert alert-warning">Something went wrong...</p>
@@ -14,12 +14,7 @@
         </div>
         <!-- Filter input -->
         <div class="container-filter">
-            <input class="filter" type="text" v-model="filterPeople" placeholder="Search people">
-        </div>
-        <!-- Number of result per page -->
-        <div class="container-numpage">
-            <label class="me-4 filter" for="resPerPage">How many results per page?</label>
-            <input id="resPerPage" class="filter" type="text" v-model="resPerPage" @input="updateVisiblePeople" placeholder="Results per page">
+            <input class="filter" type="text" v-model="filterPeople" placeholder="Filter people">
         </div>
         <!-- If loading/error show Loading/error text while retriving data -->
         <!-- If data is retrived correctly show data -->
@@ -49,6 +44,7 @@
 import notificationError from '../mixins/notificationError.js';
 import isLoading from '../mixins/isLoading.js';
 import sortBy from '../mixins/sortBy.js';
+
 export default {
     mixins: [notificationError, isLoading, sortBy],
     name: 'PeopleList',
@@ -81,14 +77,14 @@ export default {
                 }
             } catch (error) {
                 this.errorNotification();
-                this.loadingMsg = "An error occured. Cannot load data."
-                console.log(error)
+                this.loadingMsg = "An error occured. Cannot load data.";
+                console.log(error);
             }
         },
         updatePage(pageNumber) {
             this.currentPage = pageNumber;
             this.updateVisiblePeople();
-            },
+        },
         updateVisiblePeople() {
             this.visiblePeople = this.people.slice(this.currentPage * this.resPerPage, (this.currentPage * this.resPerPage) + this.resPerPage);
             if (this.visiblePeople.length == 0 && this.currentPage > 0) {
@@ -99,21 +95,15 @@ export default {
     computed: {
         filteredPeople() {
             return this.visiblePeople.filter(person => {
-                return person.name.toLowerCase().match(this.filterPeople.toLowerCase())
-            })
+                return person.name.toLowerCase().match(this.filterPeople.toLowerCase());
+            });
         }
     },
     created() {
         this.getPeople();
     }
-
-
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-
-
-</style>
+<style scoped></style>

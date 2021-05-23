@@ -1,5 +1,5 @@
 <template>
-    <section class="container-fluid">
+    <section class="container-fluid px-md-5 pt-md-3">
 
         <!-- Show error notification if something goes wrong -->
         <p v-if='isError'  class="fixed-top alert alert-warning">Something went wrong...</p>
@@ -14,12 +14,7 @@
         </div>
         <!-- Filter input -->
         <div class="container-filter">
-            <input class="filter" type="text" v-model="filterPlanets" placeholder="Search planets">
-        </div>
-        <!-- Number of result per page -->
-        <div class="container-numpage">
-            <label class="me-4 filter" for="resPerPage">How many results per page?</label>
-            <input id="resPerPage" class="filter" type="text" v-model="resPerPage" @input="updateVisiblePlanets" placeholder="Results per page">
+            <input class="filter" type="text" v-model="filterPlanets" placeholder="Filter planets">
         </div>
         <!-- If loading/error show Loading/error text while retriving data -->
         <!-- If data is retrived correctly show data -->
@@ -76,7 +71,7 @@ export default {
                 if (data) {
                     const planets = [];
                     for (let p = 0; p < data.results.length; p++) {
-                        planets.push(data.results[p])
+                        planets.push(data.results[p]);
                     }
                     this.planets = planets;
                     this.isLoading = false;
@@ -93,7 +88,7 @@ export default {
         updatePage(pageNumber) {
             this.currentPage = pageNumber;
             this.updateVisiblePlanets();
-            },
+        },
         updateVisiblePlanets() {
             this.visiblePlanets = this.planets.slice(this.currentPage * this.resPerPage, (this.currentPage * this.resPerPage) + this.resPerPage);
             if (this.visiblePlanets.length == 0 && this.currentPage > 0) {
@@ -104,8 +99,8 @@ export default {
     computed: {
         filteredPlanets() {
             return this.visiblePlanets.filter(planet => {
-                return planet.name.toLowerCase().match(this.filterPlanets.toLowerCase())
-            })
+                return planet.name.toLowerCase().match(this.filterPlanets.toLowerCase());
+            });
         }
     },
     created() {
@@ -116,8 +111,4 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-
-
-</style>
+<style scoped></style>

@@ -1,4 +1,5 @@
 <template>
+  <!-- Pagination buttons logic -->
   <div v-if="totalPages() > 0" class="container-pagination">
     <button v-if="showPrevPage()" class="btn" v-on:click="updatePage(currentPage - 1)"> prev </button>
     <span class="px-4">{{ currentPage + 1 }} of {{ totalPages() }}</span>
@@ -28,6 +29,8 @@ export default {
 </script>
 <style scoped>
 
+/** PAGINATION BUTTONS */
+
 .container-pagination {
     padding: 30px 20px;
     margin-top: 50px;
@@ -47,12 +50,26 @@ button:hover {
     transition: 0.5s;
 }
 
+/** MEDIA QUERY */
+
 @media only screen and (max-width: 768px)  {
-    /** LIST / DETAILS */
 
     .container-pagination {
         display: flex;
         justify-content: center;
+    }
+}
+
+@media only screen and (max-width: 680px)  {
+
+    button {
+      font-size: 15px;
+      height:40px;
+    }
+
+    span {
+      font-size: 15px;
+      padding: 12px !important;
     }
 }
 </style>

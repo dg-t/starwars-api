@@ -1,5 +1,5 @@
 <template>
-    <section class="container-fluid">
+    <section class="container-fluid px-md-5 pt-md-3">
 
         <!-- Show error notification if something goes wrong -->
         <p v-if='isError'  class="fixed-top alert alert-warning">Something went wrong...</p>
@@ -56,6 +56,7 @@
 import notificationError from '../mixins/notificationError.js';
 import isLoading from '../mixins/isLoading.js';
 import sortBy from '../mixins/sortBy';
+
 export default {
     mixins: [notificationError, isLoading, sortBy],
     name: 'PlanetDetails',
@@ -89,7 +90,7 @@ export default {
                     if (res.ok) {
                         return res.json();
                     } else {
-                        this.loadingMsg = "An error occured. Cannot load data."
+                        this.loadingMsg = "An error occured. Cannot load data.";
                         this.errorNotification();
                     }
                 })
@@ -103,7 +104,7 @@ export default {
                                 residentsData.push(fetch(data.residents[i])
                                 .then(res => res.json())
                             )}
-                            return Promise.all(residentsData)
+                            return Promise.all(residentsData);
                         }
                     
                         // FETCH ALL FILMS ENDPOINTS
@@ -113,7 +114,7 @@ export default {
                                 filmsData.push(fetch(data.films[i])
                                 .then( res => res.json())
                             )}
-                            return Promise.all(filmsData)
+                            return Promise.all(filmsData);
                         }
 
                         // GET ALL PROMISES AND UPDATE FRONT
@@ -137,7 +138,7 @@ export default {
                             if (fullResidentsDetails.length > 0) {
                                 const residents = []; 
                                 for (let i = 0; i < fullResidentsDetails.length; i++) {
-                                    residents.push(fullResidentsDetails[i].name)
+                                    residents.push(fullResidentsDetails[i].name);
                                 }
                                 this.residents = residents;
                             }
@@ -145,7 +146,7 @@ export default {
                             if (fullfilmsDetails.length > 0) {
                                 const films = []; 
                                 for (let i = 0; i < fullfilmsDetails.length; i++) {
-                                    films.push(fullfilmsDetails[i].title)
+                                    films.push(fullfilmsDetails[i].title);
                                 }
                                 this.films = films;
                             }
@@ -155,8 +156,8 @@ export default {
                 })
                 .catch (error => {
                     this.errorNotification();
-                    this.loadingMsg = "An error occured. Cannot load data."
-                    console.log(error)
+                    this.loadingMsg = "An error occured. Cannot load data.";
+                    console.log(error);
                 });
             }
         }
@@ -164,13 +165,8 @@ export default {
     created() {
         this.getPlanetDetails();
     }
-
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-
-
-</style>
+<style scoped></style>

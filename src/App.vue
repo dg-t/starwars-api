@@ -115,8 +115,6 @@ html {
 /** FILTER / SORT */
 
 .container-filter,
-.container-numpage,
-.container-sort,
 .container-sort-details {
   padding: 20px;
   margin-left: 18px;
@@ -129,6 +127,11 @@ html {
 }
 
 /** SORT */
+
+.container-sort {
+  padding: 15px;
+  margin-left: 15px;
+}
 
 .btn-sort {
   box-shadow: 1px 1px 1px 1px #888888;
@@ -158,16 +161,6 @@ html {
     line-height: 40px;
     width: 80px;
     height: 20px;
-}
-
-/** PAGINATION */
-
-.container-numpage {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 265px;
-  padding-left: 20px;
 }
 
 /** LOADING */
@@ -228,19 +221,12 @@ html {
     justify-content:center;
   }
 
-  /** FILTER / SORT */
+  /** FILTER */
 
-  .container-filter,
-  .container-numpage,
-  .container-sort {
+  .container-filter {
     display: flex;
     justify-content: center;
     margin-left: 0;
-  }
-
-  .btn-sort {
-    text-align: center;
-    margin-left: 3%;
   }
 
   .filter {
@@ -255,29 +241,33 @@ html {
     margin-left: 0;
   }
 
-  /** PAGINATION */
+  .container-sort {
+    display: flex;
+    justify-content: center;
+  }
 
-  .container-numpage {
-        margin: auto;
-    }
+  .btn-sort {
+    text-align: center;
+    margin-left: 3%;
+  }
 
 }
 
 @media only screen and (max-width: 680px)  {
 
-  /** FILTER / SORT */
+  /** FILTER */
 
   .filter {
     text-align: center;
     margin-left: 0;
   }
 
+  /** SORT */
+
   .btn-sort {
     text-align: center;
     margin-left: 5%;
   }
-
-  /** SORT */
 
   .container-sort-details {
     display: flex;
