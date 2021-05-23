@@ -3,18 +3,23 @@
 
         <!-- Show error notification if something goes wrong -->
         <p v-if='isError'  class="fixed-top alert alert-warning">Something went wrong...</p>
-        <!-- People list header -->
+        <!-- Starships list header -->
         <div class="container-list-header">
             <h1 class="list-header">Starships</h1>
         </div>
         <!-- Sorting buttons -->
         <div class="container-sort">
-            <button type="button" class="btn btn-sort" @click="sortDown(starships)">Sort down<i class="fas fa-sort-down custom-icondown"></i></button>
-            <button type="button" class="btn btn-sort ms-4" @click="sortUp(starships)">Sort up<i class="fas fa-sort-up custom-iconup"></i></button>
+            <button type="button" class="btn btn-sort" @click="sortDown(visibleStarships)">Sort down<i class="fas fa-sort-down custom-icondown"></i></button>
+            <button type="button" class="btn btn-sort ms-4" @click="sortUp(visibleStarships)">Sort up<i class="fas fa-sort-up custom-iconup"></i></button>
         </div>
         <!-- Filter input -->
         <div class="container-filter">
             <input class="filter" type="text" v-model="filterStarships" placeholder="Search starships">
+        </div>
+        <!-- Number of result per page -->
+        <div class="container-numpage">
+            <label class="me-4 filter" for="resPerPage">How many results per page?</label>
+            <input id="resPerPage" class="filter" type="text" v-model="resPerPage" @input="updateVisibleStarships" placeholder="Results per page">
         </div>
         <!-- If loading/error show Loading/error text while retriving data -->
         <!-- If data is retrived correctly show data -->
@@ -23,12 +28,15 @@
                 <p key=1 v-if="isLoading" class="loading">{{ loadingMsg }}</p>
                 <p key=2 v-else-if="filteredStarships == ''" class="alert alert-warning py-3 mt-3">No data found with this criteria. Please try again.</p>
                 <div key=3 v-else>
-                    <div v-for="(s, index) in filteredStarships" :key="index">
-                        <router-link :to="'/starships/'+s.url.split('/').slice(1).slice(-2).join('/')" class="btn list-data">{{s.name}}</router-link>
+                    <div v-for="(s, index) in visibleStarships" :key="index">
+                        <router-link v-if="s.name.toLowerCase().match(filterStarships.toLowerCase())" :to="'/starships/'+s.url.split('/').slice(1).slice(-2).join('/')" class="btn list-data">{{s.name}}</router-link>
                     </div>
                 </div>
             </transition>
         </div>
+
+        <!-- Pagination -->
+        <pagination :visibleData="starships" @update-page="updatePage" :currentPage="currentPage" :resPerPage="resPerPage"></pagination>
 
         <!-- Go Back button -->
         <div class="container-btngoback">
@@ -48,7 +56,10 @@ export default {
     data() {
         return {
             starships: [],
-            filterStarships: ''
+            filterStarships: '',
+            visibleStarships: [],
+            currentPage: 0,
+            resPerPage: 3,
         }
     },
     methods: {
@@ -65,20 +76,32 @@ export default {
                     }
                     this.starships = starships;
                     this.isLoading = false;
+
+                    this.updateVisibleStarships();
                 } 
             } catch (error) { 
                 this.errorNotification();
                 this.loadingMsg = "An error occured. Cannot load data."
                 console.log(error) 
             }
+        },
+        updatePage(pageNumber) {
+            this.currentPage = pageNumber;
+            this.updateVisibleStarships();
+            },
+        updateVisibleStarships() {
+            this.visibleStarships = this.starships.slice(this.currentPage * this.resPerPage, (this.currentPage * this.resPerPage) + this.resPerPage);
+            if (this.visibleStarships.length == 0 && this.currentPage > 0) {
+                this.updatePage(this.currentPage -1);
+            }
         }
     },
     computed: {
         filteredStarships() {
-            return this.starships.filter(starship => {
+            return this.visibleStarships.filter(starship => {
                 return starship.name.toLowerCase().match(this.filterStarships.toLowerCase())
             })
-        }
+        },
     },
     created() {
         this.getStarships();
@@ -88,7 +111,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 
 
 </style>

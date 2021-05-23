@@ -9,12 +9,17 @@
         </div>
         <!-- Sorting buttons -->
         <div class="container-sort">
-            <button type="button" class="btn btn-sort" @click="sortDown(people)">Sort down<i class="fas fa-sort-down custom-icondown"></i></button>
-            <button type="button" class="btn btn-sort ms-4" @click="sortUp(people)">Sort up<i class="fas fa-sort-up custom-iconup"></i></button>
+            <button type="button" class="btn btn-sort" @click="sortDown(visiblePeople)">Sort down<i class="fas fa-sort-down custom-icondown"></i></button>
+            <button type="button" class="btn btn-sort ms-4" @click="sortUp(visiblePeople)">Sort up<i class="fas fa-sort-up custom-iconup"></i></button>
         </div>
         <!-- Filter input -->
         <div class="container-filter">
             <input class="filter" type="text" v-model="filterPeople" placeholder="Search people">
+        </div>
+        <!-- Number of result per page -->
+        <div class="container-numpage">
+            <label class="me-4 filter" for="resPerPage">How many results per page?</label>
+            <input id="resPerPage" class="filter" type="text" v-model="resPerPage" @input="updateVisiblePeople" placeholder="Results per page">
         </div>
         <!-- If loading/error show Loading/error text while retriving data -->
         <!-- If data is retrived correctly show data -->
@@ -23,12 +28,15 @@
                 <p key=1 v-if="isLoading" class="loading">{{ loadingMsg }}</p>
                 <p key=2 v-else-if="filteredPeople == ''" class="alert alert-warning py-3 mt-3">No data found with this criteria. Please try again.</p>
                 <div key=3 v-else>
-                    <div v-for="(p, index) in filteredPeople" :key="index">
-                        <router-link :to="'/people/'+p.url.split('/').slice(1).slice(-2).join('/')" class="btn list-data">{{p.name}}</router-link>
+                    <div v-for="(p, index) in visiblePeople" :key="index">
+                        <router-link v-if="p.name.toLowerCase().match(filterPeople.toLowerCase())" :to="'/people/'+p.url.split('/').slice(1).slice(-2).join('/')" class="btn list-data">{{p.name}}</router-link>
                     </div>
                 </div>
             </transition>
         </div>
+
+        <!-- Pagination -->
+        <pagination :visibleData="people" @update-page="updatePage" :currentPage="currentPage" :resPerPage="resPerPage"></pagination>
 
         <!-- Go Back button -->
         <div class="container-btngoback">
@@ -47,7 +55,10 @@ export default {
     data() {
         return {
             people: [],
-            filterPeople: ''
+            filterPeople: '',
+            visiblePeople: [],
+            currentPage: 0,
+            resPerPage: 3,
         }
     },
     methods: {
@@ -65,17 +76,29 @@ export default {
                     }
                     this.people = people;
                     this.isLoading = false;
+
+                    this.updateVisiblePeople();
                 }
             } catch (error) {
                 this.errorNotification();
                 this.loadingMsg = "An error occured. Cannot load data."
                 console.log(error)
             }
+        },
+        updatePage(pageNumber) {
+            this.currentPage = pageNumber;
+            this.updateVisiblePeople();
+            },
+        updateVisiblePeople() {
+            this.visiblePeople = this.people.slice(this.currentPage * this.resPerPage, (this.currentPage * this.resPerPage) + this.resPerPage);
+            if (this.visiblePeople.length == 0 && this.currentPage > 0) {
+                this.updatePage(this.currentPage -1);
+            }
         }
     },
     computed: {
         filteredPeople() {
-            return this.people.filter(person => {
+            return this.visiblePeople.filter(person => {
                 return person.name.toLowerCase().match(this.filterPeople.toLowerCase())
             })
         }

@@ -12,11 +12,13 @@ import StarshipDetails from './components/Starships/StarshipDetails.vue';
 import PlanetsList from './components/Planets/PlanetsList.vue';
 import PlanetDetails from './components/Planets/PlanetDetails.vue';
 import NotFound from './components/NotFound/NotFound.vue';
+import Pagination from './components/Pagination/Pagination.vue';
 
 const app = createApp(App);
 
 app.component('app-controller', AppController);
 app.component('app-header', AppHeader);
+app.component('pagination', Pagination);
 
 const router = createRouter({
     history: createWebHistory(),
